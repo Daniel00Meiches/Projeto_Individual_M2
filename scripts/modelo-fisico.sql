@@ -1,4 +1,4 @@
 CREATE TABLE bebebe (
-    id PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     nome VARCHAR(50)
 );
