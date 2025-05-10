@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS app_user (
   id SERIAL PRIMARY KEY,
   username VARCHAR(55),
   email VARCHAR(200),
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS tarefa (
   data_de_entrega DATE,
   concluido BOOLEAN DEFAULT FALSE,
   id_usuario INTEGER,
-  FOREIGN KEY (id_usuario) REFERENCES user(id)
+  FOREIGN KEY (id_usuario) REFERENCES app_user(id)
 );
 
 CREATE TABLE IF NOT EXISTS subtarefa (
