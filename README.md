@@ -7,7 +7,7 @@ O sistema desenvolvido será um gerenciador de tarefas não colaborativo. Usuár
 ```
 PROJETO_INDIVIDUAL_M2
 ├── 📁 assets
-│   └── modelagem_logica.png
+│   └── modelo_banco.png
 ├── 📁 config
 │   └── database.js
 ├── 📁 controllers
