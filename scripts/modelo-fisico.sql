@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS user (
   id SERIAL PRIMARY KEY,
   username VARCHAR(55),
   email VARCHAR(200),
-  senha_hash VARCHAR(30),
+  senha_hash VARCHAR(30)
 );
 
 CREATE TABLE IF NOT EXISTS tarefa (
