@@ -1,8 +1,10 @@
 # Web Application Document - Projeto Individual - Módulo 2 - Inteli
 
-## Nome do Projeto
+## Nome do projeto
 
 #### Autor do projeto
+
+Daniel Meiches
 
 ## Sumário
 
@@ -16,8 +18,7 @@
 
 ## <a name="c1"></a>1. Introdução (Semana 01)
 
-*Preencha com até 300 palavras – sem necessidade de fonte.*
-*Descreva brevemente o sistema que você irá desenvolver.*
+O projeto que vou desenvolver será um sistema de gerenciamento de projetos. Nele, o usuário poderá criar tarefas e criar atributos (ou subtarefas) que serão incrementos para o desenvolvimento da tarefa principal. O sistema será desenvolvido com Javascript, SQL, HTTL e HTTP e poderá ser rodado através do Node.
 
 ---
 
@@ -37,9 +38,46 @@
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
-*Posicione aqui os diagramas de modelos relacionais do seu banco de dados, apresentando todos os esquemas de tabelas e suas relações. Utilize texto para complementar suas explicações, se necessário.*
+#### MODELO RELACIONAL:
 
-*Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
+<img src="./assets/modelagem_logica.png">
+
+Esse modelo contém 3 tabelas, que guardarão informações relevantes para o meu sistema de gerenciamento individual. A primeira delas é a ```user```, que contém informações do usuário como seu username, email e senha na forma de hash. A segunda tabela, ```tarefa```, conterá informações de uma tarefa principal que o usuário criará, como título e descrição, data criada, data de entrega e se a tarefa foi concluída. Por último, a tabela ```subtarefa``` tem informações de tarefas contidas dentro das tarefas principais, que são título e descrição, ordem numérica da subtarefa e se foi concluída.
+
+As 3 tabeles contém um atributo ```id``` que funcionará como a chave primária. As tabelas ```tarefa``` e ```subtarefa``` tem chaves estrangeiras que as conectarão às tabelas ```user``` e ```tarefa```, respectivamente.
+
+A relação entre as tabelas ```user``` e ```tarefa``` é 1:N e a relação entre as tabelas ```tarefa``` e ```subtarefa``` é 1:N. Isso quer dizer que um usuário consegue criar várias tarefas, assim como dentro de uma tarefa, várias subtarefas podem ser criadas.
+
+#### MODELO FÍSICO:
+```
+CREATE TABLE IF NOT EXISTS user (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(55),
+  email VARCHAR(200),
+  senha_hash VARCHAR(30),
+);
+
+CREATE TABLE IF NOT EXISTS tarefa (
+  id SERIAL PRIMARY KEY,
+  titulo VARCHAR(256),
+  descricao TEXT,
+  data_criada DATE NOT NULL,
+  data_de_entrega DATE,
+  concluido BOOLEAN DEFAULT FALSE,
+  id_usuario INTEGER,
+  FOREIGN KEY (id_usuario) REFERENCES user(id)
+);
+
+CREATE TABLE IF NOT EXISTS subtarefa (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(256),
+  descricao TEXT,
+  ordem INTEGER NOT NULL,
+  concluido BOOLEAN DEFAULT FALSE,
+  id_tarefa INTEGER,
+  FOREIGN KEY (id_tarefa) REFERENCES tarefa(id)
+);
+```
 
 ### 3.1.1 BD e Models (Semana 5)
 *Descreva aqui os Models implementados no sistema web*
