@@ -40,7 +40,7 @@ O projeto que vou desenvolver será um sistema de gerenciamento de projetos. Nel
 
 #### MODELO RELACIONAL:
 
-<img src="./assets/modelagem_logica.png">
+<img src="./assets/modelo_banco.png">
 
 Esse modelo contém 3 tabelas, que guardarão informações relevantes para o meu sistema de gerenciamento individual. A primeira delas é a ```user```, que contém informações do usuário como seu username, email e senha na forma de hash. A segunda tabela, ```tarefa```, conterá informações de uma tarefa principal que o usuário criará, como título e descrição, data criada, data de entrega e se a tarefa foi concluída. Por último, a tabela ```subtarefa``` tem informações de tarefas contidas dentro das tarefas principais, que são título e descrição, ordem numérica da subtarefa e se foi concluída.
 
