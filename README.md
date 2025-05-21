@@ -16,7 +16,7 @@ PROJETO_INDIVIDUAL_M2
 │   ├── 📁 config
 │   │   └── db.js
 │   ├── 📁 controllers
-│   │   └── HomeController.js
+│   │   ├── HomeController.js
 │   │   ├── SubtarefaController.js
 │   │   ├── TarefaController.js
 │   │   └── UserController.js
