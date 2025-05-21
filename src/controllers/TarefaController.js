@@ -1,14 +1,15 @@
-// controllers/TarefaController.js
 const pool = require('../config/db.js');
 
-// Criar uma nova tarefa. fica nesse arquivo
+// Criar uma nova tarefa
 exports.criarTarefa = async (req, res) => {
-  const { nome, descricao } = req.body;
+  const { titulo, descricao, data_criada, data_de_entrega, concluido = false, id_usuario } = req.body;
 
-  const query = 'INSERT INTO tarefas (nome, descricao) VALUES ($1, $2) RETURNING *';
-  const values = [nome, descricao];
+  const query = `
+    INSERT INTO tarefa (titulo, descricao, data_criada, data_de_entrega, concluido, id_usuario)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *`;
+  const values = [titulo, descricao, data_criada, data_de_entrega, concluido, id_usuario];
 
-  // linhas 12-19 vão para um arquivo na posta models
   try {
     const result = await pool.query(query, values);
     const tarefa = result.rows[0];
@@ -20,7 +21,7 @@ exports.criarTarefa = async (req, res) => {
 
 // Listar todas as tarefas
 exports.listarTarefas = async (req, res) => {
-  const query = 'SELECT * FROM tarefas';
+  const query = 'SELECT * FROM tarefa ORDER BY data_criada DESC';
 
   try {
     const result = await pool.query(query);
@@ -33,12 +34,14 @@ exports.listarTarefas = async (req, res) => {
 // Editar uma tarefa
 exports.editarTarefa = async (req, res) => {
   const { id } = req.params;
-  const { nome, descricao, status } = req.body;
+  const { titulo, descricao, data_de_entrega, concluido } = req.body;
 
   const query = `
-    UPDATE tarefas SET nome = $1, descricao = $2, status = $3, updated_at = CURRENT_TIMESTAMP
-    WHERE id = $4 RETURNING *`;
-  const values = [nome, descricao, status, id];
+    UPDATE tarefa
+    SET titulo = $1, descricao = $2, data_de_entrega = $3, concluido = $4
+    WHERE id = $5
+    RETURNING *`;
+  const values = [titulo, descricao, data_de_entrega, concluido, id];
 
   try {
     const result = await pool.query(query, values);
@@ -55,7 +58,7 @@ exports.editarTarefa = async (req, res) => {
 exports.excluirTarefa = async (req, res) => {
   const { id } = req.params;
 
-  const query = 'DELETE FROM tarefas WHERE id = $1 RETURNING *';
+  const query = 'DELETE FROM tarefa WHERE id = $1 RETURNING *';
   const values = [id];
 
   try {
