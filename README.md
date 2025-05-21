@@ -8,24 +8,29 @@ O sistema desenvolvido será um gerenciador de tarefas não colaborativo. Usuár
 PROJETO_INDIVIDUAL_M2
 ├── 📁 assets
 │   └── modelo_banco.png
-├── 📁 config
-│   └── database.js
-├── 📁 controllers
-│   └── HomeController.js
-├── 📁 models
-│   └── User.js
 ├── 📁 node_modules
-├── 📁 routes
-│   └── index.js
-├── 📁 scripts
-│   ├── modelo-fisico.sql
-|   └── runsql.js
-├── 📁 services
-│   └── userService.js
 ├── 📁 styles
 ├── 📁 tests
 │   └── example.test.js
+├── 📁 src
+│   ├── 📁 config
+│   │   └── db.js
+│   ├── 📁 controllers
+│   │   └── HomeController.js
+│   │   ├── SubtarefaController.js
+│   │   ├── TarefaController.js
+│   │   └── UserController.js
+│   ├── 📁 models
+│   │   └── User.js
+│   ├── 📁 routes
+│   │   └── index.js
+│   ├── 📁 scripts
+│   │   ├── init.sql
+│   │   └── runsql.js
+│   └── 📁 services
+│       └── userService.js
 ├── .env
+├── .env.example
 ├── .gitignore
 ├── jest.config.js
 ├── package-lock.json
