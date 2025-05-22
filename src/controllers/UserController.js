@@ -1,6 +1,5 @@
-const pool = require('../config/db'); // Certifique-se de que o pool está importado corretamente
+const db = require('../config/db');
 
-// Criar um novo user
 exports.criarUser = async (req, res) => {
   const { username, email, senha_hash } = req.body;
 
@@ -10,27 +9,26 @@ exports.criarUser = async (req, res) => {
   const values = [username, email, senha_hash];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     const user = result.rows[0];
+    console.log('Usuário criado:', user);
     res.status(201).json(user);
   } catch (err) {
+    console.error('Erro no criarUser:', err);
     res.status(500).json({ error: err.message });
   }
 };
 
-// Listar todos os users
 exports.listarUser = async (req, res) => {
-  const query = 'SELECT * FROM app_user';
-
   try {
-    const result = await pool.query(query);
+    const result = await db.query('SELECT * FROM app_user');
     res.status(200).json(result.rows);
   } catch (err) {
+    console.error('Erro no listarUser:', err);
     res.status(500).json({ error: err.message });
   }
 };
 
-// Editar um user
 exports.editarUser = async (req, res) => {
   const { id } = req.params;
   const { username, email, senha_hash } = req.body;
@@ -42,17 +40,17 @@ exports.editarUser = async (req, res) => {
   const values = [username, email, senha_hash, id];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
     res.status(200).json(result.rows[0]);
   } catch (err) {
+    console.error('Erro no editarUser:', err);
     res.status(500).json({ error: err.message });
   }
 };
 
-// Excluir um user
 exports.excluirUser = async (req, res) => {
   const { id } = req.params;
 
@@ -60,12 +58,13 @@ exports.excluirUser = async (req, res) => {
   const values = [id];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
     res.status(200).json({ message: 'Usuário excluído com sucesso' });
   } catch (err) {
+    console.error('Erro no excluirUser:', err);
     res.status(500).json({ error: err.message });
   }
 };

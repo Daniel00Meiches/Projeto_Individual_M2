@@ -1,20 +1,20 @@
-const pool = require('../config/db.js');
+const db = require('../config/db');
 
-// Criar uma nova tarefa
 exports.criarTarefa = async (req, res) => {
   const { titulo, descricao, data_criada, data_de_entrega, concluido = false, id_usuario } = req.body;
 
   const query = `
     INSERT INTO tarefa (titulo, descricao, data_criada, data_de_entrega, concluido, id_usuario)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING *`;
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
   const values = [titulo, descricao, data_criada, data_de_entrega, concluido, id_usuario];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     const tarefa = result.rows[0];
+    console.log('Tarefa criada:', tarefa);
     res.status(201).json(tarefa);
   } catch (err) {
+    console.error('Erro no criarTarefa:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -24,7 +24,7 @@ exports.listarTarefas = async (req, res) => {
   const query = 'SELECT * FROM tarefa ORDER BY data_criada DESC';
 
   try {
-    const result = await pool.query(query);
+    const result = await db.query(query);
     res.status(200).json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -44,7 +44,7 @@ exports.editarTarefa = async (req, res) => {
   const values = [titulo, descricao, data_de_entrega, concluido, id];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Tarefa não encontrada' });
     }
@@ -62,7 +62,7 @@ exports.excluirTarefa = async (req, res) => {
   const values = [id];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Tarefa não encontrada' });
     }

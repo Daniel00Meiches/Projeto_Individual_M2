@@ -1,4 +1,4 @@
-const pool = require('../config/db.js');
+const db = require('../config/db.js');
 
 // Criar uma nova subtarefa
 exports.criarSubtarefa = async (req, res) => {
@@ -11,7 +11,7 @@ exports.criarSubtarefa = async (req, res) => {
   const values = [title, descricao, ordem, concluido, id_tarefa];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     const subtarefa = result.rows[0];
     res.status(201).json(subtarefa);
   } catch (err) {
@@ -24,7 +24,7 @@ exports.listarSubtarefas = async (req, res) => {
   const query = 'SELECT * FROM subtarefa ORDER BY ordem ASC';
 
   try {
-    const result = await pool.query(query);
+    const result = await db.query(query);
     res.status(200).json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -44,7 +44,7 @@ exports.editarSubtarefa = async (req, res) => {
   const values = [title, descricao, ordem, concluido, id];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Subtarefa não encontrada' });
     }
@@ -62,7 +62,7 @@ exports.excluirSubtarefa = async (req, res) => {
   const values = [id];
 
   try {
-    const result = await pool.query(query, values);
+    const result = await db.query(query, values);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Subtarefa não encontrada' });
     }

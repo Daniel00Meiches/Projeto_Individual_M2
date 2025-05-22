@@ -1,9 +1,10 @@
-// routes/index.js
-const express = require('express'); // Importa o Express para usar seu sistema de roteamento
-const router = express.Router();    // Cria um roteador. Ele funciona como uma mini-instância do express focada apenas em rotas. Permite organizar rotas em módulos, sem poluir o server.js
+const express = require('express');
+const router = express.Router();
 const UserController = require('../controllers/UserController');
 const TarefaController = require('../controllers/TarefaController');
-const SubtarefaController = require('../controllers/SubtarefaController')
+const SubtarefaController = require('../controllers/SubtarefaController');
+
+// Aqui você pode importar outros controllers quando quiser
 
 // Rotas para o CRUD de users
 router.post('/app_users', UserController.criarUser);

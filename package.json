@@ -23,9 +23,15 @@
   },
   "homepage": "https://github.com/Daniel00Meiches/Projeto_Individual_M2#readme",
   "dependencies": {
+    "better-sqlite3": "^11.10.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "joi": "^17.13.3",
     "pg": "^8.15.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
