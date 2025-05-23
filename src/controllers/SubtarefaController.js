@@ -1,18 +1,17 @@
-const Subtarefa = require('../models/SubtarefaModel');
+const subtarefaService = require('../services/SubtarefaService');
 
 exports.criarSubtarefa = async (req, res) => {
   try {
-    const subtarefa = await Subtarefa.criar(req.body);
+    const subtarefa = await subtarefaService.criarSubtarefaService(req.body);
     res.status(201).json(subtarefa);
   } catch (err) {
-    console.error('Erro ao criar subtarefa:', err);
     res.status(500).json({ error: err.message });
   }
 };
 
 exports.listarSubtarefas = async (req, res) => {
   try {
-    const subtarefas = await Subtarefa.listar();
+    const subtarefas = await subtarefaService.listarSubtarefasService();
     res.status(200).json(subtarefas);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -20,9 +19,8 @@ exports.listarSubtarefas = async (req, res) => {
 };
 
 exports.editarSubtarefa = async (req, res) => {
-  const { id } = req.params;
   try {
-    const subtarefa = await Subtarefa.atualizar(id, req.body);
+    const subtarefa = await subtarefaService.editarSubtarefaService(req.params.id, req.body);
     if (!subtarefa) return res.status(404).json({ message: 'Subtarefa não encontrada' });
     res.status(200).json(subtarefa);
   } catch (err) {
@@ -31,9 +29,8 @@ exports.editarSubtarefa = async (req, res) => {
 };
 
 exports.excluirSubtarefa = async (req, res) => {
-  const { id } = req.params;
   try {
-    const subtarefa = await Subtarefa.excluir(id);
+    const subtarefa = await subtarefaService.excluirSubtarefaService(req.params.id);
     if (!subtarefa) return res.status(404).json({ message: 'Subtarefa não encontrada' });
     res.status(200).json({ message: 'Subtarefa excluída com sucesso' });
   } catch (err) {

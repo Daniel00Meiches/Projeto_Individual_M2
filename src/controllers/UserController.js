@@ -1,18 +1,17 @@
-const User = require('../models/UserModel');
+const userService = require('../services/UserService');
 
 exports.criarUser = async (req, res) => {
   try {
-    const user = await User.criar(req.body);
+    const user = await userService.criarUserService(req.body);
     res.status(201).json(user);
   } catch (err) {
-    console.error('Erro ao criar usuário:', err);
     res.status(500).json({ error: err.message });
   }
 };
 
 exports.listarUser = async (req, res) => {
   try {
-    const users = await User.listar();
+    const users = await userService.listarUsersService();
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -20,9 +19,8 @@ exports.listarUser = async (req, res) => {
 };
 
 exports.editarUser = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await User.atualizar(id, req.body);
+    const user = await userService.editarUserService(req.params.id, req.body);
     if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
     res.status(200).json(user);
   } catch (err) {
@@ -31,9 +29,8 @@ exports.editarUser = async (req, res) => {
 };
 
 exports.excluirUser = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await User.excluir(id);
+    const user = await userService.excluirUserService(req.params.id);
     if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
     res.status(200).json({ message: 'Usuário excluído com sucesso' });
   } catch (err) {
