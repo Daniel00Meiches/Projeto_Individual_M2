@@ -112,14 +112,9 @@ CREATE TABLE IF NOT EXISTS subtarefa (
 
 ### 3.2. Arquitetura (Semana 5)
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+Nessa entrega, foram feitas as camadas Model e Controller. As views serão configuradas na próxima entrega, por isso não estão incluídas nessa versão do diagrama:
 
-**Instruções para criação do diagrama de arquitetura**  
-- **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
-- **View**: A camada responsável pela interface de usuário.
-- **Controller**: A camada que recebe as requisições, processa as ações e atualiza o modelo e a visualização.
-  
-*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+<img src="./assets/diagrama_mvc.png">
 
 ### 3.3. Wireframes (Semana 03 - opcional)
 
@@ -135,8 +130,6 @@ CREATE TABLE IF NOT EXISTS subtarefa (
 *Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
 
 ### 3.6. WebAPI e endpoints (Semana 05)
-
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
 
 #### Endpoints do Usuários
 
