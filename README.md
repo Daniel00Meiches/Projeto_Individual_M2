@@ -16,19 +16,24 @@ PROJETO_INDIVIDUAL_M2
 │   ├── 📁 config
 │   │   └── db.js
 │   ├── 📁 controllers
-│   │   ├── HomeController.js
 │   │   ├── SubtarefaController.js
 │   │   ├── TarefaController.js
 │   │   └── UserController.js
 │   ├── 📁 models
-│   │   └── User.js
+│   │   ├── UserModel.js
+│   │   ├── TarefaModel.js
+│   │   └── SubtarefaModel.js
+│   ├── 📁 views
+│   │   └── documentacao.html
 │   ├── 📁 routes
 │   │   └── index.js
 │   ├── 📁 scripts
 │   │   ├── init.sql
 │   │   └── runsql.js
 │   └── 📁 services
-│       └── userService.js
+│       ├── UserService.js
+│       ├── TarefaService.js
+│       └── SubtarefaService.js
 ├── .env
 ├── .env.example
 ├── .gitignore
@@ -50,26 +55,46 @@ Pré-Requisitos:
 
 Execução:
 
-1. Clonagem do repositório
+1- Clonagem do repositório
 ```
 // Clonagem feita com Github CLI
 gh repo clone Daniel00Meiches/Projeto_Individual_M2
 cd Projeto_Individual_M2
 ```
 
-2. Instale as dependências
+2- Instale as dependências
 ```
 npm install
 ```
 
-3. Configuração do ambiente
+3- Configuração do ambiente
+Crie um arquivo .env na raiz do projeto com as seguintes variáveis, adaptadas ao seu ambiente PostgreSQL local:
+```
+DB_HOST= //localhost
+DB_PORT= //número da porta
+DB_USER= //seu usuário postgres
+DB_PASSWORD= //sua senha postgres
+DB_DATABASE= //nome do banco de dados que você utilizará que deve bater com a sua instância local do PostgreSQL
+```
 
-*proxima etapa*
+4- Criação do banco de dados
+Você pode criar o banco de dados diretamente no PostgreSQL utilizando o terminal ou uma ferramenta como o pgAdmin. Exemplo via terminal:
+```
+psql -U seu_usuario_postgres
+CREATE DATABASE projeto_m2;
+```
+Depois, execute o script de migração:
+```
+npm run migration
+```
 
-4. Criação do banco de dados
-
-*proxima etapa*
-
-5. Execute o servidor
-
-*proxima etapa*
+5- Execute o servidor
+Depois de ter tudo configurado, você pode iniciar o servidor assim:
+```
+npm start
+```
+Você deve ver algo como:
+```
+Servidor escutando em http://localhost:3000
+```
+Abra esse endereço no navegador ou use ferramentas como Postman para testar as rotas da API.

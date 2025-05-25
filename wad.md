@@ -80,7 +80,35 @@ CREATE TABLE IF NOT EXISTS subtarefa (
 ```
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+
+#### Modelo do Usuário:
+
+- ```id```: PK
+- ```username```: o nome que o usuário definiu para si mesmo no sistema.
+- ```email```: o email que o usuário inseriu para fazer login.
+- ```senha_hash```: representação alfanumérica de comprimento fixo da senha do usuário.
+
+
+#### Modelo de Tarefa:
+
+- ```id```: PK
+- ```titulo```: título que o usuário definiu para certa tarefa.
+- ```descricao```: descrição que o usuário definiu para certa tarefa.
+- ```data_criada```: data que a tarefa foi criada.
+- ```data_de_entrega```: prazo para entrega da tarefa que o usuário definiu, caso aplicável.
+- ```concluido```: valor booleano que definirá se a tarefa foi concluída.
+- ```id_usuario```: FK que referencia o ```id``` no modelo do usuário.
+
+
+#### Modelo de Subtarefa:
+
+- ```id```: PK
+- ```title```: título para a subtarefa de uma certa tarefa.
+- ```descricao```: descrição que o usuário definiu para certa subtarefa.
+- ```ordem```: um número que indicará a ordem de prioridade da subtarefa.
+- ```concluido```: valor booleano que definirá se a subtarefa foi concluída.
+- ```id_tarefa```: FK que referencia o ```id``` no modelo da tarefa.
+
 
 ### 3.2. Arquitetura (Semana 5)
 
@@ -109,6 +137,74 @@ CREATE TABLE IF NOT EXISTS subtarefa (
 ### 3.6. WebAPI e endpoints (Semana 05)
 
 *Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+
+#### Endpoints do Usuários
+
+- POST /api/app_users
+Criação de um usuário. Exemplo de corpo da requisição:
+```
+{
+  "username": "taskmaster4",
+  "email": "adorotarefas@exemplo.com",
+  "senha_hash": "0123senh4"
+}
+```
+
+- GET /api/app_users
+Mostra lista de todos os usuários cadastrados no sistema.
+
+- PUT /api/app_users/:id
+Atualiza algum campo de informação do usuário com base no seu ID.
+
+- DELETE /api/app_users/:id
+Apaga a conta de um usuário com base no seu ID.
+
+#### Endpoints da Tarefa
+
+- POST /api/tarefas
+Criação de uma tarefa. Exemplo de corpo da requisição:
+```
+{
+  "titulo": "Atividade Ponderada",
+  "descricao": "Preciso entregar uma atividade ponderada de programação",
+  "data_criada": "2025-05-22",
+  "data_de_entrega": "2025-06-01",
+  "concluido": false,
+  "id_usuario": 1
+}
+```
+
+- GET /api/tarefas
+Mostra lista de todas tarefas criadas por um usuário (é possível qual tarefa pertence a um certo usuário pelo ID do usuário).
+
+- PUT /api/tarefas/:id
+Atualiza algum campo de informação da tarefa com base no seu ID.
+
+- DELETE /api/tarefas/:id
+Apaga uma tarefa com base no seu ID.
+
+#### Endpoints da Subtarefa
+
+- POST /api/subtarefas
+Criação de uma subtarefa. Exemplo de corpo da requisição:
+```
+{
+  "title": "Acabar a documentação",
+  "descricao": "Vou acabar a documentação do WAD",
+  "ordem": 1,
+  "concluido": false,
+  "id_tarefa": 1
+}
+```
+
+- GET /api/subtarefas
+Mostra lista de todas subtarefas criadas por um usuário (é possível qual subtarefa pertence a uma certa tarefa pelo ID da tarefa).
+
+- PUT /api/subtarefas/:id
+Atualiza algum campo de informação da subtarefa com base no seu ID.
+
+- DELETE /api/subtarefas/:id
+Apaga uma subtarefa com base no seu ID.
 
 ### 3.7 Interface e Navegação (Semana 07)
 
