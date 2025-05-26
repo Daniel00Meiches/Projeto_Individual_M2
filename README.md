@@ -7,11 +7,13 @@ O sistema desenvolvido será um gerenciador de tarefas não colaborativo. Usuár
 ```
 PROJETO_INDIVIDUAL_M2
 ├── 📁 assets
-│   └── modelo_banco.png
+│   ├── modelo_banco.png
+│   └── diagrama_mvc.png
 ├── 📁 node_modules
 ├── 📁 styles
 ├── 📁 tests
-│   └── example.test.js
+│   ├── tarefa.test.js
+│   └── user.test.js
 ├── 📁 src
 │   ├── 📁 config
 │   │   └── db.js
