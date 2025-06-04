@@ -34,3 +34,36 @@ input, textarea, button {
   border-radius: 6px;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
+
+.subtarefa-form-container {
+  margin-top: 8px;
+}
+
+.subtarefa-form input {
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.subtarefa-form button {
+  padding: 5px 10px;
+}
+
+.toggle-subtarefa-form {
+  background-color: #e0e0e0;
+  border: none;
+  padding: 5px 10px;
+  font-size: 15px;
+  height: 35px;
+  width: 200px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.toggle-subtarefa-form.active-button {
+  background-color: red;
+  font-size: 15px;
+  height: 35px;
+  width: 200px;
+  color: white;
+}
