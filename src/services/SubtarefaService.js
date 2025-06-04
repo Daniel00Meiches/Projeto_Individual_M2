@@ -16,13 +16,13 @@ async function listarSubtarefasService() {
   return result.rows;
 }
 
-async function editarSubtarefaService(id, { title, descricao, ordem, concluido }) {
+async function editarSubtarefaService(id, { title, descricao, concluido }) {
   const query = `
     UPDATE subtarefa
-    SET title = $1, descricao = $2, ordem = $3, concluido = $4
-    WHERE id = $5
+    SET title = $1, descricao = $2, concluido = $3
+    WHERE id = $4
     RETURNING *`;
-  const values = [title, descricao, ordem, concluido, id];
+  const values = [title, descricao, concluido, id];
 
   const result = await db.query(query, values);
   return result.rows[0];
