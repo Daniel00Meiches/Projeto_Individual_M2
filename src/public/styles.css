@@ -1,0 +1,36 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem;
+  background-color: #f7f7f7;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: 10px;
+}
+
+input, textarea, button {
+  padding: 8px;
+  font-size: 1rem;
+}
+
+#tarefas-container {
+  margin-top: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+#tarefas-container li {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}

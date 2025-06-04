@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const routes = require('./src/routes/index.js');
 
@@ -10,10 +11,14 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'src', 'views'));
+app.use(express.static(path.join(__dirname, 'src', 'public')));
+
 app.use('/api', routes);
 
 app.get('/', (req, res) => {
-  res.send('Servidor está rodando!');
+  res.render('index');
 });
 
 app.listen(port, () => {
