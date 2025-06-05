@@ -34,7 +34,7 @@ async function carregarTarefas() {
 
     li.innerHTML = `
       <strong>${tarefa.titulo}</strong><br/>
-      <div class="descricao-tarefa">${tarefa.descricao}</div><br/>
+      <div class="tarefa-descricao">${tarefa.descricao}</div><br/>
       Criada em: ${new Date(tarefa.data_criada).toLocaleDateString('pt-BR')}<br/>
       Entrega: ${new Date(tarefa.data_de_entrega).toLocaleDateString('pt-BR')}<br/>
       Status: ${tarefa.concluido ? 'Concluído ✅' : 'Pendente 🕒'}<br/>
@@ -100,11 +100,13 @@ function inicializarEventosTarefa() {
       const li = btn.closest('li');
       const id = btn.dataset.id;
 
+      // Salva os elementos originais
       const tituloStrong = li.querySelector('strong');
-      const descLine = li.querySelector('.descricao-tarefa');
+      const descLine = li.querySelector('.tarefa-descricao');
       const entregaLine = [...li.childNodes].find(n => n.textContent?.includes('Entrega:'));
       const statusLine = [...li.childNodes].find(n => n.textContent?.includes('Status:'));
 
+      // Inputs de edição
       const inputTitulo = document.createElement('input');
       inputTitulo.value = tituloStrong.textContent;
 
@@ -126,20 +128,30 @@ function inicializarEventosTarefa() {
       statusLabel.textContent = 'Status: ';
       statusLabel.appendChild(checkboxConcluido);
 
-      // Botões com ícones
+      // Botões com ícones feather
       const salvarBtn = document.createElement('button');
-      salvarBtn.className = 'icon-btn salvar-tarefa';
+      salvarBtn.className = 'icon-btn';
       salvarBtn.title = 'Salvar';
       salvarBtn.innerHTML = '<i data-feather="check"></i>';
 
       const excluirBtn = li.querySelector('.excluir-tarefa');
-
       const descartarBtn = document.createElement('button');
-      descartarBtn.className = 'icon-btn cancelar-edicao';
+      descartarBtn.className = 'icon-btn';
       descartarBtn.title = 'Descartar alterações';
       descartarBtn.innerHTML = '<i data-feather="x"></i>';
       descartarBtn.style.marginLeft = '10px';
 
+      // Substitui conteúdo por inputs
+      tituloStrong.replaceWith(inputTitulo);
+      descLine.replaceWith(inputDescricao);
+      entregaLine.replaceWith(inputDataEntrega);
+      statusLine.replaceWith(statusLabel);
+      btn.replaceWith(salvarBtn);
+      excluirBtn.replaceWith(descartarBtn);
+
+      feather.replace(); // Atualiza ícones feather após inserção
+
+      // Evento salvar
       salvarBtn.addEventListener('click', async () => {
         await fetch(`/api/tarefas/${id}`, {
           method: 'PUT',
@@ -152,22 +164,19 @@ function inicializarEventosTarefa() {
           })
         });
 
-        carregarTarefas();
+        carregarTarefas(); // Recarrega com alterações salvas
       });
 
+      // Evento descartar (sem reload)
       descartarBtn.addEventListener('click', () => {
-        carregarTarefas();
+        inputTitulo.replaceWith(tituloStrong);
+        inputDescricao.replaceWith(descLine);
+        inputDataEntrega.replaceWith(entregaLine);
+        statusLabel.replaceWith(statusLine);
+        salvarBtn.replaceWith(btn);
+        descartarBtn.replaceWith(excluirBtn);
+        feather.replace(); // Garante re-render dos ícones
       });
-
-      // Substituições
-      tituloStrong.replaceWith(inputTitulo);
-      descLine.replaceWith(inputDescricao);
-      entregaLine.replaceWith(inputDataEntrega);
-      statusLine.replaceWith(statusLabel);
-      btn.replaceWith(salvarBtn);
-      excluirBtn.replaceWith(descartarBtn);
-
-      feather.replace();
     });
   });
 
