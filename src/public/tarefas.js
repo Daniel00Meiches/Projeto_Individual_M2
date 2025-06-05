@@ -17,32 +17,30 @@ async function carregarTarefas() {
     const li = document.createElement('li');
     const subtarefas = await carregarSubtarefas(tarefa.id);
     const subtarefasHTML = subtarefas.map(sub =>
-     `<li>
+      `<li>
         <div class="subtarefa ${sub.concluido ? 'concluida' : ''}" data-id="${sub.id}" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 8px 0;">
             <div style="flex-grow: 1;">
             <div><strong class="subtarefa-title">${sub.title}</strong></div>
             <div class="subtarefa-desc">${sub.descricao}</div>
             <div class="subtarefa-status">Status: ${sub.concluido ? 'Concluído ✅' : 'Pendente 🕒'}</div>
         </div>
-        <div class="subtarefa-acoes" style="display: flex; flex-direction: column; gap: 5px;">
-            <button class="editar-sub" data-id="${sub.id}">✏️</button>
-            <button class="excluir-sub" data-id="${sub.id}">🗑️</button>
+        <div class="subtarefa-acoes">
+            <button class="editar-sub icon-btn" data-id="${sub.id}" title="Editar"><i data-feather="edit"></i></button>
+            <button class="excluir-sub icon-btn" data-id="${sub.id}" title="Excluir"><i data-feather="trash-2"></i></button>
         </div>
         </div>
-     </li>`
+      </li>`
     ).join('');
-
-
 
     li.innerHTML = `
       <strong>${tarefa.titulo}</strong><br/>
-      ${tarefa.descricao}<br/>
+      <div class="descricao-tarefa">${tarefa.descricao}</div><br/>
       Criada em: ${new Date(tarefa.data_criada).toLocaleDateString('pt-BR')}<br/>
       Entrega: ${new Date(tarefa.data_de_entrega).toLocaleDateString('pt-BR')}<br/>
-      Status: ${tarefa.concluido ? 'Concluído' : 'Pendente'}<br/>
+      Status: ${tarefa.concluido ? 'Concluído ✅' : 'Pendente 🕒'}<br/>
 
-      <button class="editar-tarefa" data-id="${tarefa.id}">✏️ Editar</button>
-      <button class="excluir-tarefa" data-id="${tarefa.id}">🗑️ Excluir</button>
+      <button class="editar-tarefa icon-btn" data-id="${tarefa.id}" title="Editar"><i data-feather="edit"></i></button>
+      <button class="excluir-tarefa icon-btn" data-id="${tarefa.id}" title="Excluir"><i data-feather="trash-2"></i></button>
 
       <ul>${subtarefasHTML}</ul>
 
@@ -62,9 +60,10 @@ async function carregarTarefas() {
 
   inicializarEventosTarefa();
   inicializarEventosSubtarefa(); // função definida em subtarefas.js
+
+  feather.replace();
 }
 
-// Expõe globalmente para subtarefas.js poder chamar depois de ações que alteram subtarefas
 window.carregarTarefas = carregarTarefas;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -95,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarTarefas();
 });
 
-// Funções para edição e exclusão de tarefas + toggle do formulário de subtarefa
 function inicializarEventosTarefa() {
   document.querySelectorAll('.editar-tarefa').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -103,7 +101,7 @@ function inicializarEventosTarefa() {
       const id = btn.dataset.id;
 
       const tituloStrong = li.querySelector('strong');
-      const descLine = tituloStrong.nextSibling;
+      const descLine = li.querySelector('.descricao-tarefa');
       const entregaLine = [...li.childNodes].find(n => n.textContent?.includes('Entrega:'));
       const statusLine = [...li.childNodes].find(n => n.textContent?.includes('Status:'));
 
@@ -128,16 +126,20 @@ function inicializarEventosTarefa() {
       statusLabel.textContent = 'Status: ';
       statusLabel.appendChild(checkboxConcluido);
 
-      // Botões
+      // Botões com ícones
       const salvarBtn = document.createElement('button');
-      salvarBtn.textContent = 'Salvar';
+      salvarBtn.className = 'icon-btn salvar-tarefa';
+      salvarBtn.title = 'Salvar';
+      salvarBtn.innerHTML = '<i data-feather="check"></i>';
 
       const excluirBtn = li.querySelector('.excluir-tarefa');
+
       const descartarBtn = document.createElement('button');
-      descartarBtn.textContent = '❌ Descartar alterações';
+      descartarBtn.className = 'icon-btn cancelar-edicao';
+      descartarBtn.title = 'Descartar alterações';
+      descartarBtn.innerHTML = '<i data-feather="x"></i>';
       descartarBtn.style.marginLeft = '10px';
 
-      // Eventos dos botões
       salvarBtn.addEventListener('click', async () => {
         await fetch(`/api/tarefas/${id}`, {
           method: 'PUT',
@@ -150,20 +152,22 @@ function inicializarEventosTarefa() {
           })
         });
 
-        window.carregarTarefas();
+        carregarTarefas();
       });
 
       descartarBtn.addEventListener('click', () => {
-        carregarTarefas(); // Apenas recarrega a lista original
+        carregarTarefas();
       });
 
-      // Substituir conteúdo por inputs
+      // Substituições
       tituloStrong.replaceWith(inputTitulo);
       descLine.replaceWith(inputDescricao);
       entregaLine.replaceWith(inputDataEntrega);
       statusLine.replaceWith(statusLabel);
       btn.replaceWith(salvarBtn);
       excluirBtn.replaceWith(descartarBtn);
+
+      feather.replace();
     });
   });
 

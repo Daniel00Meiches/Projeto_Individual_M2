@@ -56,11 +56,13 @@ function inicializarEventosSubtarefa() {
 
       // Criar botão salvar
       const salvarBtn = document.createElement('button');
-      salvarBtn.textContent = 'Salvar';
+      salvarBtn.className = 'icon-btn';
+      salvarBtn.innerHTML = '<i data-feather="check"></i>';
 
       // Criar botão descartar
       const descartarBtn = document.createElement('button');
-      descartarBtn.textContent = '❌ Descartar alterações';
+      descartarBtn.className = 'icon-btn';
+      descartarBtn.innerHTML = '<i data-feather="x"></i>';
       descartarBtn.style.marginLeft = '10px';
 
       descartarBtn.addEventListener('click', () => {
@@ -69,6 +71,7 @@ function inicializarEventosSubtarefa() {
         labelStatus.replaceWith(statusDiv);
         salvarBtn.replaceWith(btn);
         descartarBtn.replaceWith(excluirBtn);
+        feather.replace();
       });
 
       salvarBtn.addEventListener('click', async () => {
@@ -91,6 +94,8 @@ function inicializarEventosSubtarefa() {
       statusDiv.replaceWith(labelStatus);
       btn.replaceWith(salvarBtn);
       excluirBtn.replaceWith(descartarBtn);
+
+      feather.replace(); // Atualiza os ícones novos
     });
   });
 
@@ -102,4 +107,6 @@ function inicializarEventosSubtarefa() {
       window.carregarTarefas();
     });
   });
+
+  feather.replace();
 }
