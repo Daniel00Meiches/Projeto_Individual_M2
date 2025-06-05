@@ -5,26 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gerenciador de Tarefas</title>
   <link rel="stylesheet" href="/styles.css" />
+  <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
-  <h1>Gerenciador de Tarefas</h1>
+  <h1>GERENCIADOR DE TAREFAS</h1>
 
   <section id="form-section">
   <form id="tarefa-form">
-    <h2>Criar nova tarefa</h2>
+    <h2>CRIAR NOVA TAREFA</h2>
     <input type="text" id="titulo" placeholder="Título" required />
     <input type="text" id="descricao" placeholder="Descrição" required />
     <input type="date" id="data_de_entrega" min="2020-01-01" max="2100-12-31" required />
-    <button type="submit">Criar tarefa</button>
+    <button type="submit" class="criar">Criar tarefa</button>
   </form>
   </section>
 
   <section id="lista-tarefas">
-  <h2>Minhas Tarefas</h2>
+  <h2>MINHAS TAREFAS</h2>
   <ul id="tarefas-container"></ul>
   </section>
 
   <script src="/tarefas.js"></script>
   <script src="/subtarefas.js"></script>
+  <script>feather.replace();</script>
 </body>
 </html>

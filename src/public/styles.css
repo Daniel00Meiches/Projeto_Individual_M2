@@ -1,26 +1,103 @@
+/* === Fontes & Base === */
 body {
-  font-family: Arial, sans-serif;
   margin: 2rem;
-  background-color: #f7f7f7;
-}
-
-h1 {
-  text-align: center;
+  background-color: #f0e6f6;
+  font-family: Verdana, sans-serif;
   color: #333;
 }
 
+/* === Títulos === */
+h1 {
+  font-family: Helvetica, sans-serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #4b0082;
+}
+
+h2 {
+  font-family: Helvetica, sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #4b0082;
+}
+
+/* === Formulários === */
 form {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 500px;
   gap: 10px;
 }
 
-input, textarea, button {
-  padding: 8px;
+input, textarea {
+  padding: 10px;
   font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
+button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+}
+
+/* === Botões === */
+button:hover {
+  transform: scale(1.02);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button.criar {
+  background-color: #7b1fa2;
+  color: white;
+}
+
+button.salvar {
+  background-color: #5e2a84;
+  color: white;
+}
+
+button.descartar {
+  background-color: #ccc;
+  color: black;
+}
+
+button.excluir {
+  background-color: #e53935;
+  color: white;
+}
+
+button.editar {
+  background-color: #7b1fa2;
+  color: white;
+}
+
+.toggle-subtarefa-form {
+  background-color: #d1b3ec;
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  font-size: 15px;
+  padding: 10px 15px;
+  width: 220px;
+}
+
+.toggle-subtarefa-form.active-button {
+  background-color: #e53935;
+  color: white;
+}
+
+/* === Container de tarefas === */
 #tarefas-container {
   margin-top: 2rem;
   list-style: none;
@@ -30,40 +107,68 @@ input, textarea, button {
 #tarefas-container li {
   background: white;
   padding: 1rem;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: relative;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
-.subtarefa-form-container {
-  margin-top: 8px;
+/* === Subtarefas === */
+.subtarefa {
+  padding: 8px 0;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: Verdana, sans-serif;
 }
 
-.subtarefa-form input {
-  margin-right: 5px;
-  padding: 5px;
+.subtarefa-buttons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
 }
 
-.subtarefa-form button {
-  padding: 5px 10px;
+.subtarefa-acoes {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
 }
 
-.toggle-subtarefa-form {
-  background-color: #e0e0e0;
+/* === Alinhamento de status com checkbox === */
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+/* === Animação de entrada === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Ícones (usando Feather Icons via CDN) === */
+.icon-btn {
+  background: none;
   border: none;
-  padding: 5px 10px;
-  font-size: 15px;
-  height: 35px;
-  width: 200px;
   cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  padding: 4px;
 }
 
-.toggle-subtarefa-form.active-button {
-  background-color: red;
-  font-size: 15px;
-  height: 35px;
-  width: 200px;
-  color: white;
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: #4b0082;
+  transition: stroke 0.2s;
+}
+
+.icon-btn:hover svg {
+  stroke: #7b1fa2;
 }
