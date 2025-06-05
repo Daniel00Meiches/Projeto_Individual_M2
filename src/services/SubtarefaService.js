@@ -1,37 +1,19 @@
-const db = require('../config/db');
+const SubtarefaRepository = require('../repositories/SubtarefaRepository');
 
-async function criarSubtarefaService({ title, descricao, ordem, concluido = false, id_tarefa }) {
-  const query = `
-    INSERT INTO subtarefa (title, descricao, ordem, concluido, id_tarefa)
-    VALUES ($1, $2, $3, $4, $5)
-    RETURNING *`;
-  const values = [title, descricao, ordem, concluido, id_tarefa];
-
-  const result = await db.query(query, values);
-  return result.rows[0];
+async function criarSubtarefaService(data) {
+  return await SubtarefaRepository.criar(data);
 }
 
 async function listarSubtarefasService() {
-  const result = await db.query('SELECT * FROM subtarefa ORDER BY ordem ASC');
-  return result.rows;
+  return await SubtarefaRepository.listar();
 }
 
-async function editarSubtarefaService(id, { title, descricao, concluido }) {
-  const query = `
-    UPDATE subtarefa
-    SET title = $1, descricao = $2, concluido = $3
-    WHERE id = $4
-    RETURNING *`;
-  const values = [title, descricao, concluido, id];
-
-  const result = await db.query(query, values);
-  return result.rows[0];
+async function editarSubtarefaService(id, data) {
+  return await SubtarefaRepository.atualizar(id, data);
 }
 
 async function excluirSubtarefaService(id) {
-  const query = 'DELETE FROM subtarefa WHERE id = $1 RETURNING *';
-  const result = await db.query(query, [id]);
-  return result.rows[0];
+  return await SubtarefaRepository.excluir(id);
 }
 
 module.exports = {
