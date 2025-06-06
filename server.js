@@ -21,6 +21,10 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get('/registro', (req, res) => {
+  res.render('registro');
+});
+
 app.listen(port, () => {
   console.log(`Servidor escutando em http://localhost:${port}`);
 });

@@ -1,4 +1,4 @@
-const ID_USUARIO = 1;
+const ID_USUARIO = window.usuario?.id;
 
 async function carregarSubtarefas(idTarefa) {
   const res = await fetch('/api/subtarefas');
@@ -16,18 +16,19 @@ async function carregarTarefas() {
   for (const tarefa of tarefas) {
     const li = document.createElement('li');
     const subtarefas = await carregarSubtarefas(tarefa.id);
+
     const subtarefasHTML = subtarefas.map(sub =>
       `<li>
         <div class="subtarefa ${sub.concluido ? 'concluida' : ''}" data-id="${sub.id}" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 8px 0;">
-            <div style="flex-grow: 1;">
+          <div style="flex-grow: 1;">
             <div><strong class="subtarefa-title">${sub.title}</strong></div>
             <div class="subtarefa-desc">${sub.descricao}</div>
             <div class="subtarefa-status">Status: ${sub.concluido ? 'Concluído ✅' : 'Pendente 🕒'}</div>
-        </div>
-        <div class="subtarefa-acoes">
+          </div>
+          <div class="subtarefa-acoes">
             <button class="editar-sub icon-btn" data-id="${sub.id}" title="Editar"><i data-feather="edit"></i></button>
             <button class="excluir-sub icon-btn" data-id="${sub.id}" title="Excluir"><i data-feather="trash-2"></i></button>
-        </div>
+          </div>
         </div>
       </li>`
     ).join('');
@@ -59,14 +60,55 @@ async function carregarTarefas() {
   }
 
   inicializarEventosTarefa();
-  inicializarEventosSubtarefa(); // função definida em subtarefas.js
+  inicializarEventosSubtarefa();
 
   feather.replace();
 }
 
 window.carregarTarefas = carregarTarefas;
 
+function mostrarPerfilUsuario() {
+  const perfilInfo = document.getElementById('perfil-info');
+  const perfilAvatar = document.getElementById('perfil-avatar');
+  const usuarioJSON = localStorage.getItem('usuario');
+
+  if (!usuarioJSON) {
+    perfilInfo.innerHTML = '<p>Usuário não logado.</p>';
+    perfilAvatar.src = '';
+    return;
+  }
+
+  const usuario = JSON.parse(usuarioJSON);
+  const avatarURL = usuario.avatar_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(usuario.username || 'Usuário') + '&background=random&size=128';
+
+  perfilAvatar.src = avatarURL;
+
+  perfilInfo.innerHTML = `
+    <h2 style="margin: 0;">${usuario.username || usuario.nome || 'Usuário'}</h2>
+    <p style="margin: 2px 0 0 0;"><strong>Email:</strong> ${usuario.email || '—'}</p>
+  `;
+
+    document.getElementById('delete-account-btn').onclick = async () => {
+        try {
+            const res = await fetch(`/api/app_users/${usuario.id}`, { method: 'DELETE' });
+
+            if (res.ok) {
+                localStorage.removeItem('usuario');
+                window.location.href = '/registro';
+            } else {
+                const erro = await res.json();
+                alert('Erro ao apagar conta: ' + (erro.error || 'Erro desconhecido'));
+            }
+        } catch (err) {
+            alert('Erro ao apagar conta: ' + err.message);
+        }
+    };
+
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  mostrarPerfilUsuario();
+
   const form = document.getElementById('tarefa-form');
 
   form.addEventListener('submit', async (e) => {
@@ -100,13 +142,11 @@ function inicializarEventosTarefa() {
       const li = btn.closest('li');
       const id = btn.dataset.id;
 
-      // Salva os elementos originais
       const tituloStrong = li.querySelector('strong');
       const descLine = li.querySelector('.tarefa-descricao');
       const entregaLine = [...li.childNodes].find(n => n.textContent?.includes('Entrega:'));
       const statusLine = [...li.childNodes].find(n => n.textContent?.includes('Status:'));
 
-      // Inputs de edição
       const inputTitulo = document.createElement('input');
       inputTitulo.value = tituloStrong.textContent;
 
@@ -128,7 +168,6 @@ function inicializarEventosTarefa() {
       statusLabel.textContent = 'Status: ';
       statusLabel.appendChild(checkboxConcluido);
 
-      // Botões com ícones feather
       const salvarBtn = document.createElement('button');
       salvarBtn.className = 'icon-btn';
       salvarBtn.title = 'Salvar';
@@ -141,7 +180,6 @@ function inicializarEventosTarefa() {
       descartarBtn.innerHTML = '<i data-feather="x"></i>';
       descartarBtn.style.marginLeft = '10px';
 
-      // Substitui conteúdo por inputs
       tituloStrong.replaceWith(inputTitulo);
       descLine.replaceWith(inputDescricao);
       entregaLine.replaceWith(inputDataEntrega);
@@ -149,9 +187,8 @@ function inicializarEventosTarefa() {
       btn.replaceWith(salvarBtn);
       excluirBtn.replaceWith(descartarBtn);
 
-      feather.replace(); // Atualiza ícones feather após inserção
+      feather.replace();
 
-      // Evento salvar
       salvarBtn.addEventListener('click', async () => {
         await fetch(`/api/tarefas/${id}`, {
           method: 'PUT',
@@ -164,10 +201,9 @@ function inicializarEventosTarefa() {
           })
         });
 
-        carregarTarefas(); // Recarrega com alterações salvas
+        carregarTarefas();
       });
 
-      // Evento descartar (sem reload)
       descartarBtn.addEventListener('click', () => {
         inputTitulo.replaceWith(tituloStrong);
         inputDescricao.replaceWith(descLine);
@@ -175,7 +211,7 @@ function inicializarEventosTarefa() {
         statusLabel.replaceWith(statusLine);
         salvarBtn.replaceWith(btn);
         descartarBtn.replaceWith(excluirBtn);
-        feather.replace(); // Garante re-render dos ícones
+        feather.replace();
       });
     });
   });

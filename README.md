@@ -25,17 +25,27 @@ PROJETO_INDIVIDUAL_M2
 │   │   ├── UserModel.js
 │   │   ├── TarefaModel.js
 │   │   └── SubtarefaModel.js
-│   ├── 📁 views
-│   │   └── documentacao.html
+│   ├── 📁 public
+│   │   ├── styles.css
+│   │   ├── tarefas.js
+│   │   └── subtarefas.js
+│   ├── 📁 repositories
+│   │   ├── UserRepository.js
+│   │   ├── TarefaRepository.js
+│   │   └── SubtarefaRepository.js
 │   ├── 📁 routes
 │   │   └── index.js
 │   ├── 📁 scripts
 │   │   ├── init.sql
 │   │   └── runsql.js
-│   └── 📁 services
-│       ├── UserService.js
-│       ├── TarefaService.js
-│       └── SubtarefaService.js
+│   ├── 📁 services
+│   │   ├── UserService.js
+│   │   ├── TarefaService.js
+│   │   └── SubtarefaService.js
+│   └── 📁 views
+│       ├── documentacao.html
+│       ├── index.ejs
+│       └── registro.ejs
 ├── .env
 ├── .env.example
 ├── .gitignore
