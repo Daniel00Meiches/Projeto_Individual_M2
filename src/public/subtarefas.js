@@ -9,6 +9,7 @@ function inicializarEventosSubtarefa() {
       const tituloElem = sub.querySelector('.subtarefa-title');
       const descricaoElem = sub.querySelector('.subtarefa-desc');
       const statusElem = sub.querySelector('.subtarefa-status');
+      const statusElemClone = statusElem.cloneNode(true); // Clona o original
 
       const inputTitulo = document.createElement('input');
       inputTitulo.type = 'text';
@@ -21,6 +22,11 @@ function inicializarEventosSubtarefa() {
       const checkboxConcluido = document.createElement('input');
       checkboxConcluido.type = 'checkbox';
       checkboxConcluido.checked = statusElem.textContent.includes('Concluído');
+
+      const statusLabel = document.createElement('label');
+      statusLabel.style.display = 'block'; // para ficar em uma linha separada
+      statusLabel.textContent = 'Status: ';
+      statusLabel.appendChild(checkboxConcluido);
 
       const salvarBtn = document.createElement('button');
       salvarBtn.className = 'icon-btn';
@@ -35,10 +41,10 @@ function inicializarEventosSubtarefa() {
 
       tituloElem.replaceWith(inputTitulo);
       descricaoElem.replaceWith(inputDescricao);
-      statusElem.replaceWith(checkboxConcluido);
+      statusElem.replaceWith(statusLabel);
 
       btnEditar.replaceWith(salvarBtn);
-      btnExcluir.style.display = 'none';
+      btnExcluir.replaceWith(cancelarBtn);
 
       feather.replace();
 
@@ -53,33 +59,29 @@ function inicializarEventosSubtarefa() {
           })
         });
 
-        carregarTarefas(); // recarrega tudo para atualizar subtarefas também
+        carregarTarefas(); // recarrega tudo
       });
 
       cancelarBtn.addEventListener('click', () => {
         inputTitulo.replaceWith(tituloElem);
         inputDescricao.replaceWith(descricaoElem);
-        checkboxConcluido.replaceWith(statusElem);
+        statusLabel.replaceWith(statusElemClone); // usa o clone
 
         salvarBtn.replaceWith(btnEditar);
-        btnExcluir.style.display = 'inline-block';
+        cancelarBtn.replaceWith(btnExcluir);
 
         feather.replace();
       });
-
-      salvarBtn.insertAdjacentElement('afterend', cancelarBtn);
     });
 
     btnExcluir?.addEventListener('click', async () => {
-      if (confirm('Deseja realmente excluir esta subtarefa?')) {
-        await fetch(`/api/subtarefas/${id}`, { method: 'DELETE' });
-        carregarTarefas();
-      }
+      // Remoção imediata, sem confirmação
+      await fetch(`/api/subtarefas/${id}`, { method: 'DELETE' });
+      carregarTarefas();
     });
   });
 
-  // Formulários de criação de subtarefa, para todos que estiverem visíveis
-
+  // Formulários de criação de subtarefa
   document.querySelectorAll('.subtarefa-form').forEach(form => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
