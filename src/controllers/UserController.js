@@ -18,16 +18,6 @@ exports.listarUser = async (req, res) => {
   }
 };
 
-exports.editarUser = async (req, res) => {
-  try {
-    const user = await userService.editarUserService(req.params.id, req.body);
-    if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
 exports.excluirUser = async (req, res) => {
   try {
     const user = await userService.excluirUserService(req.params.id);

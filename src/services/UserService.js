@@ -10,10 +10,6 @@ async function listarUsersService() {
   return UserModel.listar();
 }
 
-async function editarUserService(id, data) {
-  return UserModel.atualizar(id, data);
-}
-
 async function excluirUserService(id) {
   const tarefas = await TarefaModel.buscarPorUsuarioId(id);
   for (const tarefa of tarefas) {
@@ -26,6 +22,5 @@ async function excluirUserService(id) {
 module.exports = {
   criarUserService,
   listarUsersService,
-  editarUserService,
   excluirUserService,
 };

@@ -6,7 +6,6 @@ const SubtarefaController = require('../controllers/SubtarefaController');
 
 router.post('/app_users', UserController.criarUser);
 router.get('/app_users', UserController.listarUser);
-router.put('/app_users/:id', UserController.editarUser);
 router.delete('/app_users/:id', UserController.excluirUser);
 
 router.post('/tarefas', TarefaController.criarTarefa);
