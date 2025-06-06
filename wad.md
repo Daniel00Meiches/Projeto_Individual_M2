@@ -206,7 +206,7 @@ O código que eu fiz para ter um frontend funcional foi separado em duas pastas 
 📁 src
 ├── 📁 views
 │   ├── index.ejs
-│   ├── registro.js
+│   └── registro.js
 └── 📁 public
     ├── styles.css
     ├── tarefas.js
