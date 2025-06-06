@@ -1,19 +1,19 @@
-const SubtarefaRepository = require('../repositories/SubtarefaRepository');
+const SubtarefaModel = require('../models/SubtarefaModel');
 
 async function criarSubtarefaService(data) {
-  return await SubtarefaRepository.criar(data);
+  return await SubtarefaModel.criar(data);
 }
 
 async function listarSubtarefasService() {
-  return await SubtarefaRepository.listar();
+  return await SubtarefaModel.listar();
 }
 
 async function editarSubtarefaService(id, data) {
-  return await SubtarefaRepository.atualizar(id, data);
+  return await SubtarefaModel.atualizar(id, data);
 }
 
 async function excluirSubtarefaService(id) {
-  return await SubtarefaRepository.excluir(id);
+  return await SubtarefaModel.excluir(id);
 }
 
 module.exports = {

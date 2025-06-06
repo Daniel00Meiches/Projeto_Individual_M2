@@ -1,27 +1,27 @@
-const UserRepository = require('../repositories/UserRepository');
-const TarefaRepository = require('../repositories/TarefaRepository');
-const SubtarefaRepository = require('../repositories/SubtarefaRepository');
+const UserModel = require('../models/UserModel');
+const TarefaModel = require('../models/TarefaModel');
+const SubtarefaModel = require('../models/SubtarefaModel');
 
 async function criarUserService(data) {
-  return UserRepository.criar(data);
+  return UserModel.criar(data);
 }
 
 async function listarUsersService() {
-  return UserRepository.listar();
+  return UserModel.listar();
 }
 
 async function editarUserService(id, data) {
-  return UserRepository.atualizar(id, data);
+  return UserModel.atualizar(id, data);
 }
 
 // Essa você já tem:
 async function excluirUserService(id) {
-  const tarefas = await TarefaRepository.buscarPorUsuarioId(id);
+  const tarefas = await TarefaModel.buscarPorUsuarioId(id);
   for (const tarefa of tarefas) {
-    await SubtarefaRepository.excluirPorTarefaId(tarefa.id);
+    await SubtarefaModel.excluirPorTarefaId(tarefa.id);
   }
-  await TarefaRepository.excluirPorUsuarioId(id);
-  return UserRepository.excluir(id);
+  await TarefaModel.excluirPorUsuarioId(id);
+  return UserModel.excluir(id);
 }
 
 module.exports = {

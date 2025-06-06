@@ -1,13 +1,12 @@
 const db = require('../config/db');
 
-const Subtarefa = {
+const SubtarefaModel = {
   async criar({ title, descricao, ordem, concluido = false, id_tarefa }) {
     const query = `
       INSERT INTO subtarefa (title, descricao, ordem, concluido, id_tarefa)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *`;
     const values = [title, descricao, ordem, concluido, id_tarefa];
-
     const result = await db.query(query, values);
     return result.rows[0];
   },
@@ -17,22 +16,25 @@ const Subtarefa = {
     return result.rows;
   },
 
-  async atualizar(id, { title, descricao, concluido }) {
-  const query = `
-    UPDATE subtarefa
-    SET title = $1, descricao = $2, concluido = $3
-    WHERE id = $4
-    RETURNING *`;
-  const values = [title, descricao, concluido, id];
-  const result = await db.query(query, values);
-  return result.rows[0];
-},
-
+    async atualizar(id, { title, descricao, concluido }) {
+    const query = `
+        UPDATE subtarefa
+        SET title = $1, descricao = $2, concluido = $3
+        WHERE id = $4
+        RETURNING *`;
+    const values = [title, descricao, concluido, id];
+    const result = await db.query(query, values);
+    return result.rows[0];
+  },
 
   async excluir(id) {
     const result = await db.query('DELETE FROM subtarefa WHERE id = $1 RETURNING *', [id]);
     return result.rows[0];
+  },
+
+  async excluirPorTarefaId(id_tarefa) {
+    await db.query('DELETE FROM subtarefa WHERE id_tarefa = $1', [id_tarefa]);
   }
 };
 
-module.exports = Subtarefa;
+module.exports = SubtarefaModel;

@@ -1,19 +1,19 @@
-const TarefaRepository = require('../repositories/TarefaRepository');
+const TarefaModel = require('../models/TarefaModel');
 
 async function criarTarefaService(data) {
-  return await TarefaRepository.criar(data);
+  return await TarefaModel.criar(data);
 }
 
 async function listarTarefasService() {
-  return await TarefaRepository.listar();
+  return await TarefaModel.listar();
 }
 
 async function editarTarefaService(id, data) {
-  return await TarefaRepository.atualizar(id, data);
+  return await TarefaModel.atualizar(id, data);
 }
 
 async function excluirTarefaService(id) {
-  return await TarefaRepository.excluir(id);
+  return await TarefaModel.excluir(id);
 }
 
 module.exports = {
