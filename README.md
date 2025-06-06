@@ -1,6 +1,6 @@
 ## Descrição do Sistema:
 
-O sistema desenvolvido será um gerenciador de tarefas não colaborativo. Usuários poderão criar tarefas, que são blocos onde podem incluir informações necessárias para completarem seus objetivos. Tais informações incluem a descrição da tarefa, uma data de entrega (caso aplicável) e subtarefas que permitirão mais precisão quando considerando componentes restantes para que a tarefa seja completada.
+O sistema desenvolvido é um gerenciador de tarefas não colaborativo. Usuários podem criar tarefas, que são blocos com informações importantes para o cumprimento de objetivos. Cada tarefa pode conter uma descrição, uma data de entrega (caso aplicável) e subtarefas, permitindo maior precisão no acompanhamento de componentes necessários para a conclusão da tarefa.
 
 ## Estrutura de Pastas:
 
@@ -10,7 +10,6 @@ PROJETO_INDIVIDUAL_M2
 │   ├── modelo_banco.png
 │   └── diagrama_mvc.png
 ├── 📁 node_modules
-├── 📁 styles
 ├── 📁 tests
 │   ├── tarefa.test.js
 │   └── user.test.js
@@ -28,11 +27,8 @@ PROJETO_INDIVIDUAL_M2
 │   ├── 📁 public
 │   │   ├── styles.css
 │   │   ├── tarefas.js
-│   │   └── subtarefas.js
-│   ├── 📁 repositories
-│   │   ├── UserRepository.js
-│   │   ├── TarefaRepository.js
-│   │   └── SubtarefaRepository.js
+│   │   ├── subtarefas.js
+│   │   └── usuario.js
 │   ├── 📁 routes
 │   │   └── index.js
 │   ├── 📁 scripts
@@ -43,7 +39,6 @@ PROJETO_INDIVIDUAL_M2
 │   │   ├── TarefaService.js
 │   │   └── SubtarefaService.js
 │   └── 📁 views
-│       ├── documentacao.html
 │       ├── index.ejs
 │       └── registro.ejs
 ├── .env
@@ -53,43 +48,59 @@ PROJETO_INDIVIDUAL_M2
 ├── package-lock.json
 ├── package.json
 ├── README.md
-├── rest.http
 ├── server.js
 └── wad.md
 ```
 
 ## Execução do projeto localmente
 
-Pré-Requisitos:
+### Pré-Requisitos:
 - Certifique que o Git está instalado.
 - Instale [Node.js](https://nodejs.org/pt).
 - Instale o [PostgreSQL](https://www.postgresql.org/).
 
-Execução:
+### Execução:
 
-1- Clonagem do repositório
+#### 1- Clonagem do repositório
 ```
 // Clonagem feita com Github CLI
 gh repo clone Daniel00Meiches/Projeto_Individual_M2
 cd Projeto_Individual_M2
 ```
 
-2- Instale as dependências
+#### 2- Instale as dependências
 ```
-npm install
+npm install express cors body-parser better-sqlite3 pg dotenv joi ejs
 ```
+Explicação breve das dependências:
 
-3- Configuração do ambiente
+```express```: framework para criar servidores web e APIs de forma simples.
+
+```cors```: middleware que permite ao servidor controlar quais origens (domínios) podem acessar a API.
+
+```body-parser```: permite interpretar o corpo das requisições (formulários, JSON etc).
+
+```better-sqlite3```: biblioteca para usar SQLite de forma rápida e sincronizada (pode ser usada em testes ou ambiente local).
+
+```pg```: cliente PostgreSQL para Node.js, utilizado para interagir com o banco de dados.
+
+```dotenv```: carrega variáveis de ambiente definidas em um arquivo .env.
+
+```joi```: biblioteca para validação de dados recebidos (ex.: checagem de tipos, formatos etc).
+
+```ejs```: motor de templates que gera páginas HTML dinâmicas no servidor.
+
+#### 3- Configuração do ambiente
 Crie um arquivo .env na raiz do projeto com as seguintes variáveis, adaptadas ao seu ambiente PostgreSQL local:
 ```
-DB_HOST= //localhost
-DB_PORT= //número da porta
-DB_USER= //seu usuário postgres
-DB_PASSWORD= //sua senha postgres
-DB_DATABASE= //nome do banco de dados que você utilizará que deve bater com a sua instância local do PostgreSQL
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=seu_usuario_postgres
+DB_PASSWORD=sua_senha
+DB_DATABASE=nome_do_banco
 ```
 
-4- Criação do banco de dados
+#### 4- Criação do banco de dados
 Você pode criar o banco de dados diretamente no PostgreSQL utilizando o terminal ou uma ferramenta como o pgAdmin. Exemplo via terminal:
 ```
 psql -U seu_usuario_postgres
@@ -100,13 +111,16 @@ Depois, execute o script de migração:
 npm run migration
 ```
 
-5- Execute o servidor
+#### 5- Execute o servidor
 Depois de ter tudo configurado, você pode iniciar o servidor assim:
 ```
 npm start
 ```
 Você deve ver algo como:
 ```
+> projeto_individual_m2@1.0.0 start
+> node server.js
+
 Servidor escutando em http://localhost:3000
 ```
-Abra esse endereço no navegador ou use ferramentas como Postman para testar as rotas da API.
+Finalmente, cole o endereço ```http://localhost:3000``` no seu navegador para acessar o sistema web.
