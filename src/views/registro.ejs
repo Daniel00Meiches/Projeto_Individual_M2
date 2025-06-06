@@ -27,7 +27,7 @@
       const email = e.target.email.value;
       const senha = e.target.senha.value;
 
-      const senha_hash = senha; // Futuramente pode usar bcrypt
+      const senha_hash = senha;
 
       const response = await fetch('/api/app_users', {
         method: 'POST',

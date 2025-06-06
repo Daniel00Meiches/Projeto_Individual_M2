@@ -1,4 +1,3 @@
-/* === Fontes & Base === */
 body {
   margin: 2rem;
   background-color: #f0e6f6;
@@ -6,7 +5,8 @@ body {
   color: #333;
 }
 
-/* === Títulos === */
+
+
 h1 {
   font-family: Helvetica, sans-serif;
   font-size: 2.5rem;
@@ -23,7 +23,8 @@ h2 {
   color: #4b0082;
 }
 
-/* === Formulários === */
+
+
 form {
   display: flex;
   flex-direction: column;
@@ -48,7 +49,8 @@ button {
   transition: background-color 0.3s ease, transform 0.1s ease-in-out;
 }
 
-/* === Botões === */
+
+
 button:hover {
   transform: scale(1.02);
 }
@@ -97,7 +99,8 @@ button.editar {
   color: white;
 }
 
-/* === Container de tarefas === */
+
+
 #tarefas-container {
   margin-top: 2rem;
   list-style: none;
@@ -114,7 +117,8 @@ button.editar {
   animation: fadeIn 0.4s ease-in-out;
 }
 
-/* === Subtarefas === */
+
+
 .subtarefa {
   padding: 8px 0;
   border-top: 1px solid #eee;
@@ -139,7 +143,8 @@ button.editar {
   align-items: center;
 }
 
-/* === Alinhamento de status com checkbox === */
+
+
 .status-line {
   display: flex;
   align-items: center;
@@ -148,13 +153,15 @@ button.editar {
   font-size: 0.9rem;
 }
 
-/* === Animação de entrada === */
+
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* === Ícones (usando Feather Icons via CDN) === */
+
+
 .icon-btn {
   background: none;
   border: none;

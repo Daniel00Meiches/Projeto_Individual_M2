@@ -6,7 +6,6 @@ describe('CRUD de Tarefas', () => {
   let idCriado;
   let idUsuario;
 
-  // Criar um usuário antes de tudo (tarefa depende dele)
   beforeAll(async () => {
     const res = await db.query(`
       INSERT INTO app_user (username, email, senha_hash)

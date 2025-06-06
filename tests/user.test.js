@@ -1,7 +1,5 @@
-// tests/user.test.js
-
 const request = require('supertest');
-const app = require('../server'); // Ajuste o caminho se precisar
+const app = require('../server');
 
 describe('Teste da API de usuários', () => {
   it('Deve criar um usuário via POST /api/app_users', async () => {

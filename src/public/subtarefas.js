@@ -9,7 +9,7 @@ function inicializarEventosSubtarefa() {
       const tituloElem = sub.querySelector('.subtarefa-title');
       const descricaoElem = sub.querySelector('.subtarefa-desc');
       const statusElem = sub.querySelector('.subtarefa-status');
-      const statusElemClone = statusElem.cloneNode(true); // Clona o original
+      const statusElemClone = statusElem.cloneNode(true);
 
       const inputTitulo = document.createElement('input');
       inputTitulo.type = 'text';
@@ -24,7 +24,7 @@ function inicializarEventosSubtarefa() {
       checkboxConcluido.checked = statusElem.textContent.includes('Concluído');
 
       const statusLabel = document.createElement('label');
-      statusLabel.style.display = 'block'; // para ficar em uma linha separada
+      statusLabel.style.display = 'block';
       statusLabel.textContent = 'Status: ';
       statusLabel.appendChild(checkboxConcluido);
 
@@ -59,13 +59,13 @@ function inicializarEventosSubtarefa() {
           })
         });
 
-        carregarTarefas(); // recarrega tudo
+        carregarTarefas();
       });
 
       cancelarBtn.addEventListener('click', () => {
         inputTitulo.replaceWith(tituloElem);
         inputDescricao.replaceWith(descricaoElem);
-        statusLabel.replaceWith(statusElemClone); // usa o clone
+        statusLabel.replaceWith(statusElemClone);
 
         salvarBtn.replaceWith(btnEditar);
         cancelarBtn.replaceWith(btnExcluir);
@@ -75,13 +75,11 @@ function inicializarEventosSubtarefa() {
     });
 
     btnExcluir?.addEventListener('click', async () => {
-      // Remoção imediata, sem confirmação
       await fetch(`/api/subtarefas/${id}`, { method: 'DELETE' });
       carregarTarefas();
     });
   });
 
-  // Formulários de criação de subtarefa
   document.querySelectorAll('.subtarefa-form').forEach(form => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
