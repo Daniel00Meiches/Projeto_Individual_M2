@@ -1,6 +1,6 @@
 ## Descrição do Sistema:
 
-O sistema desenvolvido é um gerenciador de tarefas não colaborativo. Usuários podem criar tarefas, que são blocos com informações importantes para o cumprimento de objetivos. Cada tarefa pode conter uma descrição, uma data de entrega (caso aplicável) e subtarefas, permitindo maior precisão no acompanhamento de componentes necessários para a conclusão da tarefa.
+O sistema desenvolvido é um gerenciador de tarefas não colaborativo. Usuários precisam fazer login para criarem tarefas, que são blocos com informações importantes para o cumprimento de objetivos, como a descrição e uma data de entrega (caso aplicável). Cada tarefa pode conter uma subtarefa, permitindo maior precisão no acompanhamento de componentes necessários para a conclusão da tarefa principal.
 
 ## Estrutura de Pastas:
 

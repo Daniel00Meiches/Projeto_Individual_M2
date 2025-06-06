@@ -201,9 +201,167 @@ Apaga uma subtarefa com base no seu ID.
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+O código que eu fiz para ter um frontend funcional foi separado em duas pastas com arquivos de formatos diferentes:
+```
+📁 src
+├── 📁 views
+│   ├── index.ejs
+│   ├── registro.js
+└── 📁 public
+    ├── styles.css
+    ├── tarefas.js
+    ├── subtarefas.js
+    └── usuario.js
+```
+A pasta views conterá dois arquivos ejs, que contém códigos em html configurando as duas páginas do meu sistema:
+<img src="./assets/pasta_views.png">
 
----
+A pasta public contém arquivos javascript para que as funcionalidades do sistema funcionem. Funcionalidades incluem:
+- criação de tarefas através de um método POST. Trecho de código vem do arquivo ```tarefas.js```:
+```
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const novaTarefa = {
+      titulo: document.getElementById('titulo').value,
+      descricao: document.getElementById('descricao').value,
+      data_criada: new Date().toISOString().split('T')[0],
+      data_de_entrega: document.getElementById('data_de_entrega').value,
+      concluido: false,
+      id_usuario: ID_USUARIO,
+    };
+
+    await fetch('/api/tarefas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(novaTarefa),
+    });
+
+    form.reset();
+    carregarTarefas();
+  });
+```
+- edição de tarefas através de um método PUT. Trecho de código vem do arquivo ```tarefas.js```:
+```
+ document.querySelectorAll('.editar-tarefa').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const li = btn.closest('li');
+      const id = btn.dataset.id;
+
+      const tituloStrong = li.querySelector('strong');
+      const descLine = li.querySelector('.tarefa-descricao');
+      const entregaLine = [...li.childNodes].find(n => n.textContent?.includes('Entrega:'));
+      const statusLine = [...li.childNodes].find(n => n.textContent?.includes('Status:'));
+
+      const inputTitulo = document.createElement('input');
+      inputTitulo.value = tituloStrong.textContent;
+
+      const inputDescricao = document.createElement('input');
+      inputDescricao.value = descLine.textContent.trim();
+
+      const inputDataEntrega = document.createElement('input');
+      inputDataEntrega.type = 'date';
+      inputDataEntrega.value = entregaLine.textContent.split('Entrega: ')[1].trim().split('/').reverse().join('-');
+
+      const checkboxConcluido = document.createElement('input');
+      checkboxConcluido.type = 'checkbox';
+      checkboxConcluido.checked = statusLine.textContent.includes('Concluído');
+
+      const statusLabel = document.createElement('label');
+      statusLabel.style.display = 'flex';
+      statusLabel.style.alignItems = 'center';
+      statusLabel.style.gap = '8px';
+      statusLabel.textContent = 'Status: ';
+      statusLabel.appendChild(checkboxConcluido);
+
+      const salvarBtn = document.createElement('button');
+      salvarBtn.className = 'icon-btn';
+      salvarBtn.title = 'Salvar';
+      salvarBtn.innerHTML = '<i data-feather="check"></i>';
+
+      const excluirBtn = li.querySelector('.excluir-tarefa');
+      const descartarBtn = document.createElement('button');
+      descartarBtn.className = 'icon-btn';
+      descartarBtn.title = 'Descartar alterações';
+      descartarBtn.innerHTML = '<i data-feather="x"></i>';
+      descartarBtn.style.marginLeft = '10px';
+
+      tituloStrong.replaceWith(inputTitulo);
+      descLine.replaceWith(inputDescricao);
+      entregaLine.replaceWith(inputDataEntrega);
+      statusLine.replaceWith(statusLabel);
+      btn.replaceWith(salvarBtn);
+      excluirBtn.replaceWith(descartarBtn);
+
+      feather.replace();
+
+      salvarBtn.addEventListener('click', async () => {
+        await fetch(`/api/tarefas/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            titulo: inputTitulo.value,
+            descricao: inputDescricao.value,
+            data_de_entrega: inputDataEntrega.value,
+            concluido: checkboxConcluido.checked
+          })
+        });
+
+        carregarTarefas();
+      });
+```
+- adição de subtarefas através de um método POST. Trecho de código vem do arquivo ```subtarefas.js```:
+```
+orm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const idTarefa = parseInt(form.dataset.id);
+      const formData = new FormData(form);
+
+      const novaSubtarefa = {
+        title: formData.get('title'),
+        descricao: formData.get('descricao'),
+        ordem: 1,
+        concluido: false,
+        id_tarefa: idTarefa,
+      };
+
+      await fetch('/api/subtarefas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(novaSubtarefa),
+      });
+
+      form.reset();
+      carregarTarefas();
+    });
+```
+- apagamento de um usuário através de um método DELETE. Trecho de código vem do arquivo ```tarefas.js```:
+```
+    document.getElementById('delete-account-btn').onclick = async () => {
+        try {
+            const res = await fetch(`/api/app_users/${usuario.id}`, { method: 'DELETE' });
+
+            if (res.ok) {
+                localStorage.removeItem('usuario');
+                window.location.href = '/registro';
+            } else {
+                const erro = await res.json();
+                alert('Erro ao apagar conta: ' + (erro.error || 'Erro desconhecido'));
+            }
+        } catch (err) {
+            alert('Erro ao apagar conta: ' + err.message);
+        }
+    };
+```
+- arquivo ```usuario.js``` que vai checar se um usuário existe. Caso não existir, o cliente será direcionado para a tela de login:
+```
+window.usuario = JSON.parse(localStorage.getItem('usuario'));
+
+if (!window.usuario) {
+  window.location.href = '/registro';
+}
+```
 
 ## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
 
