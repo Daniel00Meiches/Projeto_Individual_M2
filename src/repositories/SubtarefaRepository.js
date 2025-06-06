@@ -27,11 +27,15 @@ const SubtarefaRepository = {
     return result.rows[0];
   },
 
-
   async excluir(id) {
     const result = await db.query('DELETE FROM subtarefa WHERE id = $1 RETURNING *', [id]);
     return result.rows[0];
+  },
+
+  async excluirPorTarefaId(id_tarefa) {
+    await db.query('DELETE FROM subtarefa WHERE id_tarefa = $1', [id_tarefa]);
   }
+
 };
 
 module.exports = SubtarefaRepository;

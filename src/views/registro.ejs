@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro de Usuário</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <h1>REGISTRO DE USUÁRIO</h1>
+
+  <section style="display: flex; justify-content: center; margin-top: 2rem;">
+    <form id="registroForm" style="background-color: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 450px;">
+      <h2>Crie sua conta</h2>
+      <input type="text" name="username" placeholder="Nome de usuário" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="senha" placeholder="Senha" required />
+      <button type="submit" class="criar">Cadastrar</button>
+    </form>
+  </section>
+
+  <script>
+    document.getElementById('registroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = e.target.username.value;
+      const email = e.target.email.value;
+      const senha = e.target.senha.value;
+
+      const senha_hash = senha; // Futuramente pode usar bcrypt
+
+      const response = await fetch('/api/app_users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, senha_hash })
+      });
+
+      if (response.ok) {
+        const usuario = await response.json();
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        window.location.href = '/';
+      } else {
+        const erro = await response.json();
+        alert('Erro ao registrar: ' + erro.error);
+      }
+    });
+  </script>
+</body>
+</html>

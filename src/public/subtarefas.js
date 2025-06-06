@@ -1,78 +1,46 @@
 function inicializarEventosSubtarefa() {
-  // Criar nova subtarefa
-  document.querySelectorAll('.subtarefa-form').forEach(form => {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const idTarefa = form.dataset.id;
-      const title = form.querySelector('input[name="title"]').value;
-      const descricao = form.querySelector('input[name="descricao"]').value;
+  document.querySelectorAll('.subtarefa').forEach(sub => {
+    const id = sub.dataset.id;
 
-      await fetch('/api/subtarefas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title,
-          descricao,
-          ordem: 1,
-          concluido: false,
-          id_tarefa: parseInt(idTarefa),
-        })
-      });
+    const btnEditar = sub.querySelector('.editar-sub');
+    const btnExcluir = sub.querySelector('.excluir-sub');
 
-      const carregarTarefas = window.carregarTarefas || (() => window.location.reload());
-      carregarTarefas();
-    });
-  });
+    btnEditar?.addEventListener('click', () => {
+      const tituloElem = sub.querySelector('.subtarefa-title');
+      const descricaoElem = sub.querySelector('.subtarefa-desc');
+      const statusElem = sub.querySelector('.subtarefa-status');
 
-  // Editar subtarefa
-  document.querySelectorAll('.editar-sub').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const subtarefaDiv = btn.closest('.subtarefa');
-      const id = btn.dataset.id;
-
-      const titleSpan = subtarefaDiv.querySelector('.subtarefa-title');
-      const descSpan = subtarefaDiv.querySelector('.subtarefa-desc');
-      const statusDiv = subtarefaDiv.querySelector('.subtarefa-status');
-      const excluirBtn = subtarefaDiv.querySelector('.excluir-sub');
-
-      // Criar campos de input
       const inputTitulo = document.createElement('input');
-      inputTitulo.value = titleSpan.textContent;
+      inputTitulo.type = 'text';
+      inputTitulo.value = tituloElem.textContent;
 
       const inputDescricao = document.createElement('input');
-      inputDescricao.value = descSpan.textContent;
+      inputDescricao.type = 'text';
+      inputDescricao.value = descricaoElem.textContent;
 
       const checkboxConcluido = document.createElement('input');
       checkboxConcluido.type = 'checkbox';
-      checkboxConcluido.checked = subtarefaDiv.classList.contains('concluida');
+      checkboxConcluido.checked = statusElem.textContent.includes('Concluído');
 
-      const labelStatus = document.createElement('label');
-      labelStatus.style.display = 'flex';
-      labelStatus.style.alignItems = 'center';
-      labelStatus.style.gap = '8px';
-      labelStatus.innerHTML = 'Status: ';
-      labelStatus.appendChild(checkboxConcluido);
-      labelStatus.classList.add('subtarefa-status');
-
-      // Criar botão salvar
       const salvarBtn = document.createElement('button');
       salvarBtn.className = 'icon-btn';
+      salvarBtn.title = 'Salvar';
       salvarBtn.innerHTML = '<i data-feather="check"></i>';
 
-      // Criar botão descartar
-      const descartarBtn = document.createElement('button');
-      descartarBtn.className = 'icon-btn';
-      descartarBtn.innerHTML = '<i data-feather="x"></i>';
-      descartarBtn.style.marginLeft = '10px';
+      const cancelarBtn = document.createElement('button');
+      cancelarBtn.className = 'icon-btn';
+      cancelarBtn.title = 'Cancelar';
+      cancelarBtn.innerHTML = '<i data-feather="x"></i>';
+      cancelarBtn.style.marginLeft = '8px';
 
-      descartarBtn.addEventListener('click', () => {
-        inputTitulo.replaceWith(titleSpan);
-        inputDescricao.replaceWith(descSpan);
-        labelStatus.replaceWith(statusDiv);
-        salvarBtn.replaceWith(btn);
-        descartarBtn.replaceWith(excluirBtn);
-        feather.replace();
-      });
+      tituloElem.replaceWith(inputTitulo);
+      descricaoElem.replaceWith(inputDescricao);
+      statusElem.replaceWith(checkboxConcluido);
+
+      btnEditar.replaceWith(salvarBtn);
+      btnExcluir.style.display = 'none';
+
+      feather.replace();
 
       salvarBtn.addEventListener('click', async () => {
         await fetch(`/api/subtarefas/${id}`, {
@@ -85,28 +53,56 @@ function inicializarEventosSubtarefa() {
           })
         });
 
-        window.carregarTarefas();
+        carregarTarefas(); // recarrega tudo para atualizar subtarefas também
       });
 
-      // Substituições visuais
-      titleSpan.replaceWith(inputTitulo);
-      descSpan.replaceWith(inputDescricao);
-      statusDiv.replaceWith(labelStatus);
-      btn.replaceWith(salvarBtn);
-      excluirBtn.replaceWith(descartarBtn);
+      cancelarBtn.addEventListener('click', () => {
+        inputTitulo.replaceWith(tituloElem);
+        inputDescricao.replaceWith(descricaoElem);
+        checkboxConcluido.replaceWith(statusElem);
 
-      feather.replace(); // Atualiza os ícones novos
+        salvarBtn.replaceWith(btnEditar);
+        btnExcluir.style.display = 'inline-block';
+
+        feather.replace();
+      });
+
+      salvarBtn.insertAdjacentElement('afterend', cancelarBtn);
+    });
+
+    btnExcluir?.addEventListener('click', async () => {
+      if (confirm('Deseja realmente excluir esta subtarefa?')) {
+        await fetch(`/api/subtarefas/${id}`, { method: 'DELETE' });
+        carregarTarefas();
+      }
     });
   });
 
-  // Excluir subtarefa
-  document.querySelectorAll('.excluir-sub').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const id = btn.dataset.id;
-      await fetch(`/api/subtarefas/${id}`, { method: 'DELETE' });
-      window.carregarTarefas();
+  // Formulários de criação de subtarefa, para todos que estiverem visíveis
+
+  document.querySelectorAll('.subtarefa-form').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const idTarefa = parseInt(form.dataset.id);
+      const formData = new FormData(form);
+
+      const novaSubtarefa = {
+        title: formData.get('title'),
+        descricao: formData.get('descricao'),
+        ordem: 1,
+        concluido: false,
+        id_tarefa: idTarefa,
+      };
+
+      await fetch('/api/subtarefas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(novaSubtarefa),
+      });
+
+      form.reset();
+      carregarTarefas();
     });
   });
-
-  feather.replace();
 }

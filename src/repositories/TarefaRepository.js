@@ -31,7 +31,18 @@ const TarefaRepository = {
   async excluir(id) {
     const result = await db.query('DELETE FROM tarefa WHERE id = $1 RETURNING *', [id]);
     return result.rows[0];
+  },
+
+  async buscarPorUsuarioId(id_usuario) {
+    const result = await db.query('SELECT * FROM tarefa WHERE id_usuario = $1', [id_usuario]);
+    return result.rows;
+  },
+
+  async excluirPorUsuarioId(id_usuario) {
+    await db.query('DELETE FROM tarefa WHERE id_usuario = $1', [id_usuario]);
   }
+
+
 };
 
 module.exports = TarefaRepository;
