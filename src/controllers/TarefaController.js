@@ -5,7 +5,6 @@ exports.criarTarefa = async (req, res) => {
     const tarefa = await tarefaService.criarTarefaService(req.body);
     res.status(201).json(tarefa);
   } catch (err) {
-    console.error('Erro ao criar tarefa:', err);
     res.status(500).json({ error: err.message });
   }
 };

@@ -36,6 +36,7 @@ PROJETO_INDIVIDUAL_M2
 │   ├── 📁 routes
 │   │   └── index.js
 │   ├── 📁 scripts
+│   │   ├── exemplo.sql
 │   │   ├── init.sql
 │   │   └── runsql.js
 │   ├── 📁 services
