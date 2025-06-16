@@ -2,6 +2,10 @@
 
 O sistema desenvolvido é um gerenciador de tarefas não colaborativo. Usuários precisam fazer login para criarem tarefas, que são blocos com informações importantes para o cumprimento de objetivos, como a descrição e uma data de entrega (caso aplicável). Cada tarefa pode conter uma subtarefa, permitindo maior precisão no acompanhamento de componentes necessários para a conclusão da tarefa principal.
 
+## Vídeo de Demonstração
+
+https://youtu.be/qiuQcah67gc
+
 ## Estrutura de Pastas:
 
 ```
