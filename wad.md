@@ -371,19 +371,19 @@ https://youtu.be/qiuQcah67gc
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
-Pontos fortes:
+**Pontos fortes:**
 - O sistema faz uso de todas as rotas que eu defini.
 - Integração frontend e backend está bem desenvolvida.
 - A interface está funcional e intuitiva, garantindo uma boa usabilidade.
 
-Pontos a melhorar:
+**Pontos a melhorar:**
 - O sistema poderia suportar mais de um usuário de cada vez e ter as tarefas vinculadas a cada usuário.
 - A interface poderia ser aprimorada para suportar mais customização de tarefas, por exemplo:
   - O usuário poderia arrastar cards que contém informações das tarefas para organizar sua tela como quiser.
   - O usuário poderia criar e adicionar tags customizaveis a suas tarefas.
   - O usuário poderia editar suas informações de usuário quando quisesse.
 
-Melhorias futuras:
+**Melhorias futuras:**
 - Adicionar a funcionalidade de categorização e filtragem de tarefas por prioridade, data ou tags.
 - Desenvolver uma barra lateral para o usuário navegar entre o menu de cadastro de usuário, editar informação de usuário e criar tarefa.
 - Integrar o sistema com APIs externas, como calendários (Google Calendar), para sincronização de eventos e tarefas.
