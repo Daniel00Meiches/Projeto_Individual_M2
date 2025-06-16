@@ -1,7 +1,29 @@
 const db = require('../config/db');
+const Joi = require('joi');
+
+const tarefaSchema = Joi.object({
+  titulo: Joi.string().max(256).required(),
+  descricao: Joi.string().allow(null, ''),
+  data_criada: Joi.date().required(),
+  data_de_entrega: Joi.date().allow(null),
+  concluido: Joi.boolean().default(false),
+  id_usuario: Joi.number().integer().required()
+});
+
+const tarefaUpdateSchema = Joi.object({
+  titulo: Joi.string().max(256).required(),
+  descricao: Joi.string().allow(null, ''),
+  data_de_entrega: Joi.date().allow(null),
+  concluido: Joi.boolean().required()
+});
 
 const TarefaModel = {
-  async criar({ titulo, descricao, data_criada, data_de_entrega, concluido = false, id_usuario }) {
+  async criar(data) {
+    const { error } = tarefaSchema.validate(data);
+    if (error) throw new Error(`Erro de validação (Tarefa): ${error.message}`);
+
+    const { titulo, descricao, data_criada, data_de_entrega, concluido, id_usuario } = data;
+
     const query = `
       INSERT INTO tarefa (titulo, descricao, data_criada, data_de_entrega, concluido, id_usuario)
       VALUES ($1, $2, $3, $4, $5, $6)
@@ -17,7 +39,12 @@ const TarefaModel = {
     return result.rows;
   },
 
-  async atualizar(id, { titulo, descricao, data_de_entrega, concluido }) {
+  async atualizar(id, data) {
+    const { error } = tarefaUpdateSchema.validate(data);
+    if (error) throw new Error(`Erro de validação (Tarefa Update): ${error.message}`);
+
+    const { titulo, descricao, data_de_entrega, concluido } = data;
+
     const query = `
       UPDATE tarefa
       SET titulo = $1, descricao = $2, data_de_entrega = $3, concluido = $4
