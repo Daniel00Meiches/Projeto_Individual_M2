@@ -70,4 +70,8 @@ const TarefaModel = {
   }
 };
 
-module.exports = TarefaModel;
+module.exports = {
+  ...TarefaModel,
+  schema: tarefaSchema,
+  updateSchema: tarefaUpdateSchema
+};

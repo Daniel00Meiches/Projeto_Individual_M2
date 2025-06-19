@@ -62,4 +62,8 @@ const SubtarefaModel = {
   }
 };
 
-module.exports = SubtarefaModel;
+module.exports = {
+  ...SubtarefaModel,
+  schema: subtarefaSchema,
+  updateSchema: subtarefaUpdateSchema
+};

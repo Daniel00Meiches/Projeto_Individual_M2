@@ -15,6 +15,14 @@ PROJETO_INDIVIDUAL_M2
 │   └── diagrama_mvc.png
 ├── 📁 node_modules
 ├── 📁 tests
+│   ├── 📁 models
+│   │   ├── UserModel.test.js
+│   │   ├── TarefaModel.test.js
+│   │   └── SubtarefaModel.test.js
+│   ├── 📁 services
+│   │   ├── UserService.test.js
+│   │   ├── TarefaService.test.js
+│   │   └── SubtarefaService.test.js
 │   ├── tarefa.test.js
 │   └── user.test.js
 ├── 📁 src
